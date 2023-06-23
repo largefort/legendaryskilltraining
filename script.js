@@ -47,6 +47,7 @@ function trainSkill(skillIndex) {
   }
   
   updateSkill(skillIndex);
+  animateProgressBar();
   saveGame(); // Save the game after training
 }
 
@@ -60,6 +61,15 @@ function updateSkill(skillIndex) {
   skillNameElement.textContent = skill.name;
   skillLevelElement.textContent = skill.level;
   skillExpElement.textContent = skill.exp;
+}
+
+// Animate progress bar
+function animateProgressBar() {
+  var progressBar = document.getElementById('progress-bar');
+  progressBar.style.width = '100%';
+  setTimeout(function() {
+    progressBar.style.width = '0';
+  }, 500);
 }
 
 // Auto-train skills
@@ -76,6 +86,7 @@ function buyAutoTrain() {
     currency -= 100;
     document.getElementById('currency').textContent = currency;
     document.getElementById('buy-auto-train-button').style.display = 'none'; // Hide the button after buying
+    animateProgressBar();
     saveGame(); // Save the game after buying auto-train
   }
 }
