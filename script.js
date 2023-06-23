@@ -1,4 +1,4 @@
-  // Random skill names
+// Random skill names
 var skillNames = [
   "Shadow Strike",
   "Dragon Fury",
