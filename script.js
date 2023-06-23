@@ -23,6 +23,9 @@ var skills = [];
 // Currency
 var currency = 0;
 
+// Train interval ID
+var trainIntervalId = null;
+
 // Initialize skills
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
@@ -71,27 +74,47 @@ function autoTrainSkills() {
 // Buy auto-train
 function buyAutoTrain() {
   if (currency >= 100) {
-    setInterval(autoTrainSkills, 3000);
+    setInterval(autoTrainSkills, 1000);
     currency -= 100;
     document.getElementById('currency').textContent = currency;
     document.getElementById('currency-container').style.display = 'none';
   }
 }
 
-// Autosave
-function autoSave() {
+// Start training on button hold
+function startTraining(skillIndex) {
+  trainSkill(skillIndex);
+  trainIntervalId = setInterval(function() {
+    trainSkill(skillIndex);
+  }, 200);
+}
+
+// Stop training on button release
+function stopTraining() {
+  clearInterval(trainIntervalId);
+}
+
+// Autosave progress
+function autosave() {
+  // Simulate autosaving process
+  document.getElementById('autosave-text').style.display = 'block';
+  setTimeout(function() {
+    document.getElementById('autosave-text').style.display = 'none';
+  }, 2000);
+  
+  // Save data to localStorage
   var saveData = {
     skills: skills,
     currency: currency
   };
-  localStorage.setItem('skillQuestSave', JSON.stringify(saveData));
+  localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
 }
 
-// Load saved data
-function loadSaveData() {
-  var savedData = localStorage.getItem('skillQuestSave');
-  if (savedData) {
-    var saveData = JSON.parse(savedData);
+// Load saved progress
+function loadSavedProgress() {
+  var saveData = localStorage.getItem('skillQuestSaveData');
+  if (saveData) {
+    saveData = JSON.parse(saveData);
     skills = saveData.skills;
     currency = saveData.currency;
     document.getElementById('currency').textContent = currency;
@@ -99,7 +122,7 @@ function loadSaveData() {
   }
 }
 
-// Update all skills
+// Update all skills data on the page
 function updateAllSkills() {
   for (var i = 1; i <= skills.length; i++) {
     updateSkill(i);
@@ -109,10 +132,9 @@ function updateAllSkills() {
 // Initialize the game
 function initGame() {
   initSkills();
-  loadSaveData();
+  loadSavedProgress();
   updateAllSkills();
-  setInterval(autoSave, 5000); // Autosave every 5 seconds
-  setInterval(updateAllSkills, 1000); // Update skills every second
+  setInterval(autosave, 5000); // Autosave every 5 seconds
 }
 
 // Start the game when the page loads
