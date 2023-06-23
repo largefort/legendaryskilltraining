@@ -23,12 +23,6 @@ var skills = [];
 // Currency
 var currency = 0;
 
-// Autosave interval ID
-var autosaveInterval;
-
-// Game version number
-var versionNumber = "1.0";
-
 // Initialize skills
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
@@ -67,52 +61,46 @@ function updateSkill(skillIndex) {
   skillExpElement.textContent = skill.exp;
 }
 
-// Autosave function
-function autosave() {
-  // Save game data
+// Save the game data to local storage
+function saveGame() {
   var saveData = {
     skills: skills,
-    currency: currency,
-    version: versionNumber
+    currency: currency
   };
 
-  // Store save data in local storage
   localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
+  alert('Game saved successfully!');
 }
 
-// Load saved game data
-function loadSavedData() {
+// Load the game data from local storage
+function loadGame() {
   var savedData = localStorage.getItem('skillQuestSaveData');
 
   if (savedData) {
     var saveData = JSON.parse(savedData);
+    skills = saveData.skills;
+    currency = saveData.currency;
+    updateAllSkills();
+    document.getElementById('currency').textContent = currency;
+    alert('Game loaded successfully!');
+  } else {
+    alert('No saved game data found!');
+  }
+}
 
-    // Check version number compatibility
-    if (saveData.version === versionNumber) {
-      skills = saveData.skills;
-      currency = saveData.currency;
-    }
+// Update all skills on the page
+function updateAllSkills() {
+  for (var i = 1; i <= skills.length; i++) {
+    updateSkill(i);
   }
 }
 
 // Initialize the game
 function initGame() {
   initSkills();
-  loadSavedData();
   updateAllSkills();
   document.getElementById('currency').textContent = currency;
-
-  // Autosave every 10 seconds
-  autosaveInterval = setInterval(autosave, 10000);
 }
 
 // Start the game when the page loads
 window.onload = initGame;
-
-// Copyright notice
-console.log("© 2023 Jafet Egill. All rights reserved.");
-
-// Stop autosave on page unload
-window.onbeforeunload = function() {
-  clearInterval(autosaveInterval);
-};
