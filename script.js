@@ -74,7 +74,6 @@ function buyAutoTrain() {
     setInterval(autoTrainSkills, 3000);
     currency -= 100;
     document.getElementById('currency').textContent = currency;
-    document.getElementById('currency-container').style.display = 'none';
   }
 }
 
@@ -84,21 +83,20 @@ function saveGame() {
     skills: skills,
     currency: currency
   };
-  var gameDataJson = JSON.stringify(gameData);
-  localStorage.setItem('skillQuestSave', gameDataJson);
-  alert('Game saved successfully!');
+  localStorage.setItem('skillQuestSave', JSON.stringify(gameData));
+  alert('Game saved!');
 }
 
 // Load game
 function loadGame() {
-  var gameDataJson = localStorage.getItem('skillQuestSave');
-  if (gameDataJson) {
-    var gameData = JSON.parse(gameDataJson);
+  var savedData = localStorage.getItem('skillQuestSave');
+  if (savedData) {
+    var gameData = JSON.parse(savedData);
     skills = gameData.skills;
     currency = gameData.currency;
     updateAllSkills();
     document.getElementById('currency').textContent = currency;
-    alert('Game loaded successfully!');
+    alert('Game loaded!');
   } else {
     alert('No saved game found!');
   }
@@ -106,16 +104,16 @@ function loadGame() {
 
 // Toggle fullscreen
 function toggleFullscreen() {
-  var docElement = document.documentElement;
-  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-    if (docElement.requestFullscreen) {
-      docElement.requestFullscreen();
-    } else if (docElement.mozRequestFullScreen) {
-      docElement.mozRequestFullScreen();
-    } else if (docElement.webkitRequestFullscreen) {
-      docElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-    } else if (docElement.msRequestFullscreen) {
-      docElement.msRequestFullscreen();
+  var elem = document.documentElement;
+  if (!document.fullscreenElement) {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
     }
   } else {
     if (document.exitFullscreen) {
@@ -130,7 +128,7 @@ function toggleFullscreen() {
   }
 }
 
-// Update all skill data on the page
+// Update all skills on the page
 function updateAllSkills() {
   for (var i = 1; i <= skills.length; i++) {
     updateSkill(i);
