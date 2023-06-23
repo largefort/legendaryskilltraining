@@ -23,6 +23,9 @@ var skills = [];
 // Currency
 var currency = 0;
 
+// Auto train interval
+var autoTrainInterval;
+
 // Initialize skills
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
@@ -38,14 +41,14 @@ function initSkills() {
 function trainSkill(skillIndex) {
   var skill = skills[skillIndex - 1];
   skill.exp += 10;
-  
+
   if (skill.exp >= 100) {
     skill.exp -= 100;
     skill.level++;
     currency += 10; // Earn 10 coins for leveling up a skill
     document.getElementById('currency').textContent = currency;
   }
-  
+
   updateSkill(skillIndex);
   animateProgressBar();
   saveGame(); // Save the game after training
@@ -57,7 +60,7 @@ function updateSkill(skillIndex) {
   var skillNameElement = document.getElementById('skill' + skillIndex + '-name');
   var skillLevelElement = document.getElementById('skill' + skillIndex + '-level');
   var skillExpElement = document.getElementById('skill' + skillIndex + '-exp');
-  
+
   skillNameElement.textContent = skill.name;
   skillLevelElement.textContent = skill.level;
   skillExpElement.textContent = skill.exp;
@@ -82,7 +85,7 @@ function autoTrainSkills() {
 // Buy auto-train
 function buyAutoTrain() {
   if (currency >= 100) {
-    setInterval(autoTrainSkills, 3000);
+    autoTrainInterval = setInterval(autoTrainSkills, 3000);
     currency -= 100;
     document.getElementById('currency').textContent = currency;
     document.getElementById('buy-auto-train-button').style.display = 'none'; // Hide the button after buying
@@ -95,7 +98,8 @@ function buyAutoTrain() {
 function saveGame() {
   var gameData = {
     skills: skills,
-    currency: currency
+    currency: currency,
+    hasAutoTrain: (document.getElementById('buy-auto-train-button').style.display === 'none')
   };
   localStorage.setItem('gameData', JSON.stringify(gameData));
 }
@@ -109,6 +113,18 @@ function loadGame() {
     currency = gameData.currency;
     document.getElementById('currency').textContent = currency;
     updateAllSkills();
+
+    if (gameData.hasAutoTrain) {
+      document.getElementById('buy-auto-train-button').style.display = 'none';
+      autoTrainInterval = setInterval(autoTrainSkills, 3000);
+    }
+  }
+}
+
+// Update all skills on the page
+function updateAllSkills() {
+  for (var i = 1; i <= skills.length; i++) {
+    updateSkill(i);
   }
 }
 
