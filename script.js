@@ -78,36 +78,70 @@ function buyAutoTrain() {
   }
 }
 
-// Save game data to localStorage
+// Save game
 function saveGame() {
   var gameData = {
     skills: skills,
     currency: currency
   };
-  localStorage.setItem('gameData', JSON.stringify(gameData));
+  var gameDataJson = JSON.stringify(gameData);
+  localStorage.setItem('skillQuestSave', gameDataJson);
+  alert('Game saved successfully!');
 }
 
-// Load game data from localStorage
+// Load game
 function loadGame() {
-  var savedData = localStorage.getItem('gameData');
-  if (savedData) {
-    var gameData = JSON.parse(savedData);
+  var gameDataJson = localStorage.getItem('skillQuestSave');
+  if (gameDataJson) {
+    var gameData = JSON.parse(gameDataJson);
     skills = gameData.skills;
     currency = gameData.currency;
-    document.getElementById('currency').textContent = currency;
     updateAllSkills();
+    document.getElementById('currency').textContent = currency;
+    alert('Game loaded successfully!');
+  } else {
+    alert('No saved game found!');
+  }
+}
+
+// Toggle fullscreen
+function toggleFullscreen() {
+  var docElement = document.documentElement;
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    if (docElement.requestFullscreen) {
+      docElement.requestFullscreen();
+    } else if (docElement.mozRequestFullScreen) {
+      docElement.mozRequestFullScreen();
+    } else if (docElement.webkitRequestFullscreen) {
+      docElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    } else if (docElement.msRequestFullscreen) {
+      docElement.msRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+  }
+}
+
+// Update all skill data on the page
+function updateAllSkills() {
+  for (var i = 1; i <= skills.length; i++) {
+    updateSkill(i);
   }
 }
 
 // Initialize the game
 function initGame() {
   initSkills();
-  loadGame(); // Load saved game data
   updateAllSkills();
   setInterval(updateAllSkills, 1000); // Update skills every second
-  
-  // Save game data when the page is unloaded
-  window.onbeforeunload = saveGame;
 }
 
 // Start the game when the page loads
