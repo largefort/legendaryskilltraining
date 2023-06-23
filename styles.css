@@ -28,6 +28,12 @@ h1 {
   letter-spacing: 2px;
   text-transform: uppercase;
 }
+#progress-bar {
+  width: 0;
+  height: 10px;
+  background-color: #4CAF50;
+  transition: width 0.5s;
+}
 
 #skills-container {
   display: flex;
@@ -77,4 +83,4 @@ button {
 
 button:hover {
   background-color: #4d3cc9;
-    }
+}
