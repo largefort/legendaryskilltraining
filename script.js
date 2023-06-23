@@ -74,32 +74,39 @@ function buyAutoTrain() {
     setInterval(autoTrainSkills, 3000);
     currency -= 100;
     document.getElementById('currency').textContent = currency;
-    document.getElementById('buy-auto-train').style.display = 'none';
+    document.getElementById('currency-container').style.display = 'none';
   }
 }
 
-// Save game
+// Save game data to localStorage
 function saveGame() {
-  var saveData = {
+  var gameData = {
     skills: skills,
     currency: currency
   };
-  localStorage.setItem('legendarySkillQuestSaveData', JSON.stringify(saveData));
+  localStorage.setItem('gameData', JSON.stringify(gameData));
   console.log('Game saved!');
 }
 
-// Load game
+// Load game data from localStorage
 function loadGame() {
-  var saveData = localStorage.getItem('legendarySkillQuestSaveData');
-  if (saveData) {
-    saveData = JSON.parse(saveData);
-    skills = saveData.skills;
-    currency = saveData.currency;
+  var savedData = localStorage.getItem('gameData');
+  if (savedData) {
+    var gameData = JSON.parse(savedData);
+    skills = gameData.skills;
+    currency = gameData.currency;
     updateAllSkills();
     document.getElementById('currency').textContent = currency;
     console.log('Game loaded!');
   } else {
-    console.log('No saved game found!');
+    console.log('No saved game data found!');
+  }
+}
+
+// Update all skill data on the page
+function updateAllSkills() {
+  for (var i = 1; i <= skills.length; i++) {
+    updateSkill(i);
   }
 }
 
@@ -112,4 +119,3 @@ function initGame() {
 
 // Start the game when the page loads
 window.onload = initGame;
-
