@@ -72,10 +72,10 @@ function autoTrainSkills() {
 // Buy auto-train
 function buyAutoTrain() {
   if (currency >= 100) {
-    setInterval(autoTrainSkills, 1000);
+    setInterval(autoTrainSkills, 3000);
     currency -= 100;
     document.getElementById('currency').textContent = currency;
-    document.getElementById('currency-container').style.display = 'none';
+    document.getElementById('buy-auto-train-button').style.display = 'none'; // Hide the button after buying
     saveGame(); // Save the game after buying auto-train
   }
 }
