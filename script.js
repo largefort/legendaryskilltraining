@@ -23,8 +23,11 @@ var skills = [];
 // Currency
 var currency = 0;
 
-// Version number
-var version = "1.0";
+// Save data
+var saveDataKey = "legendary_skill_quest_save_data";
+
+// Game version
+var version = "1.0.0";
 
 // Initialize skills
 function initSkills() {
@@ -81,51 +84,88 @@ function buyAutoTrain() {
   }
 }
 
-// Save game
-function saveGame() {
+// Export save data as JSON
+function exportSaveData() {
   var saveData = {
+    version: version,
     skills: skills,
-    currency: currency,
-    version: version
+    currency: currency
   };
   
-  localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
-  alert("Game saved!");
+  var saveDataJSON = JSON.stringify(saveData);
+  
+  var a = document.createElement('a');
+  a.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(saveDataJSON);
+  a.download = 'savedata.json';
+  a.click();
 }
 
-// Load game
-function loadGame() {
-  var saveData = localStorage.getItem('skillQuestSaveData');
+// Import save data from JSON
+function importSaveData(event) {
+  var file = event.target.files[0];
+  var reader = new FileReader();
   
-  if (saveData) {
-    saveData = JSON.parse(saveData);
-    skills = saveData.skills;
-    currency = saveData.currency;
-    version = saveData.version;
-    updateAllSkills();
-    document.getElementById('currency').textContent = currency;
-    alert("Game loaded!");
-  } else {
-    alert("No saved game found!");
-  }
+  reader.onload = function(e) {
+    var saveDataJSON = e.target.result;
+    var saveData = JSON.parse(saveDataJSON);
+    
+    if (saveData.version === version) {
+      skills = saveData.skills;
+      currency = saveData.currency;
+      
+      updateAllSkills();
+      document.getElementById('currency').textContent = currency;
+      
+      localStorage.setItem(saveDataKey, saveDataJSON);
+      alert("Save data imported successfully!");
+    } else {
+      alert("Cannot import save data. Version mismatch!");
+    }
+  };
+  
+  reader.readAsText(file);
 }
 
 // Initialize the game
 function initGame() {
   initSkills();
+  loadSaveData();
   updateAllSkills();
   setInterval(updateAllSkills, 1000); // Update skills every second
+}
+
+// Load save data from local storage
+function loadSaveData() {
+  var saveDataJSON = localStorage.getItem(saveDataKey);
   
-  // Event listeners for save and load buttons
-  var saveButton = document.getElementById('save-button');
-  var loadButton = document.getElementById('load-button');
-  saveButton.addEventListener('click', saveGame);
-  loadButton.addEventListener('click', loadGame);
+  if (saveDataJSON) {
+    var saveData = JSON.parse(saveDataJSON);
+    
+    if (saveData.version === version) {
+      skills = saveData.skills;
+      currency = saveData.currency;
+      
+      updateAllSkills();
+      document.getElementById('currency').textContent = currency;
+    } else {
+      alert("Cannot load save data. Version mismatch!");
+    }
+  }
+}
+
+// Save game progress to local storage
+function saveGame() {
+  var saveData = {
+    version: version,
+    skills: skills,
+    currency: currency
+  };
+  
+  var saveDataJSON = JSON.stringify(saveData);
+  localStorage.setItem(saveDataKey, saveDataJSON);
+  
+  alert("Game saved successfully!");
 }
 
 // Start the game when the page loads
 window.onload = initGame;
-
-// Copyright
-console.log("\u00A9 2023 Jafet Egill. All rights reserved.");
-console.log("Version: " + version);
