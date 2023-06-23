@@ -1,4 +1,4 @@
-// Random skill names
+  // Random skill names
 var skillNames = [
   "Shadow Strike",
   "Dragon Fury",
@@ -74,64 +74,32 @@ function buyAutoTrain() {
     setInterval(autoTrainSkills, 3000);
     currency -= 100;
     document.getElementById('currency').textContent = currency;
+    document.getElementById('buy-auto-train').style.display = 'none';
   }
 }
 
 // Save game
 function saveGame() {
-  var gameData = {
+  var saveData = {
     skills: skills,
     currency: currency
   };
-  localStorage.setItem('skillQuestSave', JSON.stringify(gameData));
-  alert('Game saved!');
+  localStorage.setItem('legendarySkillQuestSaveData', JSON.stringify(saveData));
+  console.log('Game saved!');
 }
 
 // Load game
 function loadGame() {
-  var savedData = localStorage.getItem('skillQuestSave');
-  if (savedData) {
-    var gameData = JSON.parse(savedData);
-    skills = gameData.skills;
-    currency = gameData.currency;
+  var saveData = localStorage.getItem('legendarySkillQuestSaveData');
+  if (saveData) {
+    saveData = JSON.parse(saveData);
+    skills = saveData.skills;
+    currency = saveData.currency;
     updateAllSkills();
     document.getElementById('currency').textContent = currency;
-    alert('Game loaded!');
+    console.log('Game loaded!');
   } else {
-    alert('No saved game found!');
-  }
-}
-
-// Toggle fullscreen
-function toggleFullscreen() {
-  var elem = document.documentElement;
-  if (!document.fullscreenElement) {
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) {
-      elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) {
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-      elem.msRequestFullscreen();
-    }
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
-  }
-}
-
-// Update all skills on the page
-function updateAllSkills() {
-  for (var i = 1; i <= skills.length; i++) {
-    updateSkill(i);
+    console.log('No saved game found!');
   }
 }
 
@@ -144,3 +112,4 @@ function initGame() {
 
 // Start the game when the page loads
 window.onload = initGame;
+
