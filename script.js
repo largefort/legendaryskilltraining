@@ -1,4 +1,4 @@
-// Random skill names
+    // Random skill names
 var skillNames = [
   "Shadow Strike",
   "Dragon Fury",
@@ -23,11 +23,8 @@ var skills = [];
 // Currency
 var currency = 0;
 
-// Save data
-var saveDataKey = "legendary_skill_quest_save_data";
-
-// Game version
-var version = "1.0.0";
+// Version number
+var versionNumber = "1.0";
 
 // Initialize skills
 function initSkills() {
@@ -44,14 +41,14 @@ function initSkills() {
 function trainSkill(skillIndex) {
   var skill = skills[skillIndex - 1];
   skill.exp += 10;
-  
+
   if (skill.exp >= 100) {
     skill.exp -= 100;
     skill.level++;
     currency += 10; // Earn 10 coins for leveling up a skill
     document.getElementById('currency').textContent = currency;
   }
-  
+
   updateSkill(skillIndex);
 }
 
@@ -61,7 +58,7 @@ function updateSkill(skillIndex) {
   var skillNameElement = document.getElementById('skill' + skillIndex + '-name');
   var skillLevelElement = document.getElementById('skill' + skillIndex + '-level');
   var skillExpElement = document.getElementById('skill' + skillIndex + '-exp');
-  
+
   skillNameElement.textContent = skill.name;
   skillLevelElement.textContent = skill.level;
   skillExpElement.textContent = skill.exp;
@@ -85,87 +82,53 @@ function buyAutoTrain() {
 }
 
 // Export save data as JSON
-function exportSaveData() {
+function exportSave() {
   var saveData = {
-    version: version,
     skills: skills,
-    currency: currency
+    currency: currency,
+    versionNumber: versionNumber
   };
-  
-  var saveDataJSON = JSON.stringify(saveData);
-  
-  var a = document.createElement('a');
-  a.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(saveDataJSON);
-  a.download = 'savedata.json';
-  a.click();
+
+  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(saveData));
+  var downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute('href', dataStr);
+  downloadAnchor.setAttribute('download', 'savedata.json');
+  downloadAnchor.click();
 }
 
 // Import save data from JSON
-function importSaveData(event) {
+function importSave(event) {
   var file = event.target.files[0];
   var reader = new FileReader();
-  
-  reader.onload = function(e) {
-    var saveDataJSON = e.target.result;
-    var saveData = JSON.parse(saveDataJSON);
-    
-    if (saveData.version === version) {
-      skills = saveData.skills;
-      currency = saveData.currency;
-      
-      updateAllSkills();
-      document.getElementById('currency').textContent = currency;
-      
-      localStorage.setItem(saveDataKey, saveDataJSON);
-      alert("Save data imported successfully!");
-    } else {
-      alert("Cannot import save data. Version mismatch!");
-    }
+
+  reader.onload = function (e) {
+    var saveData = JSON.parse(e.target.result);
+    skills = saveData.skills;
+    currency = saveData.currency;
+    versionNumber = saveData.versionNumber;
+
+    updateAllSkills();
+    document.getElementById('currency').textContent = currency;
   };
-  
+
   reader.readAsText(file);
 }
 
 // Initialize the game
 function initGame() {
   initSkills();
-  loadSaveData();
   updateAllSkills();
   setInterval(updateAllSkills, 1000); // Update skills every second
-}
 
-// Load save data from local storage
-function loadSaveData() {
-  var saveDataJSON = localStorage.getItem(saveDataKey);
-  
-  if (saveDataJSON) {
-    var saveData = JSON.parse(saveDataJSON);
-    
-    if (saveData.version === version) {
-      skills = saveData.skills;
-      currency = saveData.currency;
-      
-      updateAllSkills();
-      document.getElementById('currency').textContent = currency;
-    } else {
-      alert("Cannot load save data. Version mismatch!");
-    }
-  }
-}
-
-// Save game progress to local storage
-function saveGame() {
-  var saveData = {
-    version: version,
-    skills: skills,
-    currency: currency
-  };
-  
-  var saveDataJSON = JSON.stringify(saveData);
-  localStorage.setItem(saveDataKey, saveDataJSON);
-  
-  alert("Game saved successfully!");
+  // Sync version number
+  document.getElementById('version-number').textContent = versionNumber;
 }
 
 // Start the game when the page loads
 window.onload = initGame;
+
+// Event listener for export button
+document.getElementById('export-button').addEventListener('click', exportSave);
+
+// Event listener for import input
+document.getElementById('import-input').addEventListener('change', importSave);
