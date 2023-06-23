@@ -23,6 +23,9 @@ var skills = [];
 // Currency
 var currency = 0;
 
+// Training interval ID
+var trainingInterval;
+
 // Initialize skills
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
@@ -59,6 +62,18 @@ function updateSkill(skillIndex) {
   skillNameElement.textContent = skill.name;
   skillLevelElement.textContent = skill.level;
   skillExpElement.textContent = skill.exp;
+}
+
+// Automatically train a skill when the train button is held down
+function startAutoTraining(skillIndex) {
+  trainingInterval = setInterval(function() {
+    trainSkill(skillIndex);
+  }, 100);
+}
+
+// Stop automatic training
+function stopAutoTraining() {
+  clearInterval(trainingInterval);
 }
 
 // Save the game data to local storage
