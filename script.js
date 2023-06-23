@@ -1,27 +1,132 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Legendary Skill Quest</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
-  <h1>Legendary Skill Quest</h1>
-  <div id="skills-container">
-    <div class="skill">
-      <h2 id="skill1-name">Skill 1</h2>
-      <p>Level: <span id="skill1-level">0</span></p>
-      <p>Experience: <span id="skill1-exp">0</span></p>
-      <button onclick="trainSkill(1)">Train</button>
-    </div>
-    <!-- Repeat the above skill div for other skills -->
-  </div>
-  <div id="currency-container">
-    <h2>Currency: <span id="currency">0</span> Coins</h2>
-    <button onclick="buyAutoTrain()">Buy Auto-Train (100 Coins)</button>
-    <button onclick="saveGame()">Save Game</button>
-    <button onclick="loadGame()">Load Game</button>
-  </div>
+// Random skill names
+var skillNames = [
+  "Shadow Strike",
+  "Dragon Fury",
+  "Storm Bolt",
+  "Arcane Surge",
+  "Venomous Bite",
+  "Holy Smite",
+  "Inferno Blaze",
+  "Frost Nova",
+  "Earthquake",
+  "Divine Shield",
+  "Thunderstorm",
+  "Rapid Shot",
+  "Crippling Blow",
+  "Soul Drain",
+  "Whirlwind Slash"
+];
 
-  <script src="script.js"></script>
-</body>
-</html>
+// Skill data
+var skills = [];
+
+// Currency
+var currency = 0;
+
+// Training interval ID
+var trainingInterval;
+
+// Initialize skills
+function initSkills() {
+  for (var i = 0; i < skillNames.length; i++) {
+    skills.push({
+      name: skillNames[i],
+      level: 0,
+      exp: 0
+    });
+  }
+}
+
+// Train a skill
+function trainSkill(skillIndex) {
+  var skill = skills[skillIndex - 1];
+  skill.exp += 10;
+
+  if (skill.exp >= 100) {
+    skill.exp -= 100;
+    skill.level++;
+    currency += 10; // Earn 10 coins for leveling up a skill
+    document.getElementById('currency').textContent = currency;
+  }
+
+  updateSkill(skillIndex);
+}
+
+// Update skill data on the page
+function updateSkill(skillIndex) {
+  var skill = skills[skillIndex - 1];
+  var skillNameElement = document.getElementById('skill' + skillIndex + '-name');
+  var skillLevelElement = document.getElementById('skill' + skillIndex + '-level');
+  var skillExpElement = document.getElementById('skill' + skillIndex + '-exp');
+
+  skillNameElement.textContent = skill.name;
+  skillLevelElement.textContent = skill.level;
+  skillExpElement.textContent = skill.exp;
+}
+
+// Buy auto-train
+function buyAutoTrain() {
+  if (currency >= 100) {
+    currency -= 100;
+    document.getElementById('currency').textContent = currency;
+    enableAutoTrain();
+  } else {
+    alert("Insufficient coins to buy auto-train!");
+  }
+}
+
+// Enable auto-train
+function enableAutoTrain() {
+  trainingInterval = setInterval(function() {
+    trainSkill(1); // Train only the first skill for demonstration purposes
+  }, 100);
+}
+
+// Disable auto-train
+function disableAutoTrain() {
+  clearInterval(trainingInterval);
+}
+
+// Save the game data to local storage
+function saveGame() {
+  var saveData = {
+    skills: skills,
+    currency: currency
+  };
+
+  localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
+  alert('Game saved successfully!');
+}
+
+// Load the game data from local storage
+function loadGame() {
+  var savedData = localStorage.getItem('skillQuestSaveData');
+
+  if (savedData) {
+    var saveData = JSON.parse(savedData);
+    skills = saveData.skills;
+    currency = saveData.currency;
+    updateAllSkills();
+    document.getElementById('currency').textContent = currency;
+    alert('Game loaded successfully!');
+  } else {
+    alert('No saved game data found!');
+  }
+}
+
+// Update all skills on the page
+function updateAllSkills() {
+  for (var i = 1; i <= skills.length; i++) {
+    updateSkill(i);
+  }
+}
+
+// Initialize the game
+function initGame() {
+  initSkills();
+  updateAllSkills();
+  document.getElementById('currency').textContent = currency;
+}
+
+// Start the game when the page loads
+window.onload = initGame;
