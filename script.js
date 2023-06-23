@@ -47,8 +47,6 @@ function trainSkill(skillIndex) {
   }
   
   updateSkill(skillIndex);
-  animateProgressBar();
-  saveGame(); // Save the game after training
 }
 
 // Update skill data on the page
@@ -61,15 +59,6 @@ function updateSkill(skillIndex) {
   skillNameElement.textContent = skill.name;
   skillLevelElement.textContent = skill.level;
   skillExpElement.textContent = skill.exp;
-}
-
-// Animate progress bar
-function animateProgressBar() {
-  var progressBar = document.getElementById('progress-bar');
-  progressBar.style.width = '100%';
-  setTimeout(function() {
-    progressBar.style.width = '0';
-  }, 500);
 }
 
 // Auto-train skills
@@ -85,13 +74,11 @@ function buyAutoTrain() {
     setInterval(autoTrainSkills, 3000);
     currency -= 100;
     document.getElementById('currency').textContent = currency;
-    document.getElementById('buy-auto-train-button').style.display = 'none'; // Hide the button after buying
-    animateProgressBar();
-    saveGame(); // Save the game after buying auto-train
+    document.getElementById('currency-container').style.display = 'none';
   }
 }
 
-// Save the game data
+// Save game data to localStorage
 function saveGame() {
   var gameData = {
     skills: skills,
@@ -100,7 +87,7 @@ function saveGame() {
   localStorage.setItem('gameData', JSON.stringify(gameData));
 }
 
-// Load the game data
+// Load game data from localStorage
 function loadGame() {
   var savedData = localStorage.getItem('gameData');
   if (savedData) {
@@ -115,8 +102,12 @@ function loadGame() {
 // Initialize the game
 function initGame() {
   initSkills();
-  loadGame(); // Load the game data
+  loadGame(); // Load saved game data
+  updateAllSkills();
   setInterval(updateAllSkills, 1000); // Update skills every second
+  
+  // Save game data when the page is unloaded
+  window.onbeforeunload = saveGame;
 }
 
 // Start the game when the page loads
