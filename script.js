@@ -1,5 +1,5 @@
-// Random skill names
-var skillNames = [
+// Array of skill name options
+var skillNameOptions = [
   "Shadow Strike",
   "Dragon Fury",
   "Storm Bolt",
@@ -22,20 +22,6 @@ var skills = [];
 
 // Currency
 var currency = 0;
-
-// Auto train interval
-var autoTrainInterval;
-
-// Initialize skills
-function initSkills() {
-  for (var i = 0; i < skillNames.length; i++) {
-    skills.push({
-      name: skillNames[i],
-      level: 0,
-      exp: 0
-    });
-  }
-}
 
 // Train a skill
 function trainSkill(skillIndex) {
@@ -85,7 +71,7 @@ function autoTrainSkills() {
 // Buy auto-train
 function buyAutoTrain() {
   if (currency >= 100) {
-    autoTrainInterval = setInterval(autoTrainSkills, 3000);
+    setInterval(autoTrainSkills, 3000);
     currency -= 100;
     document.getElementById('currency').textContent = currency;
     document.getElementById('buy-auto-train-button').style.display = 'none'; // Hide the button after buying
@@ -98,8 +84,7 @@ function buyAutoTrain() {
 function saveGame() {
   var gameData = {
     skills: skills,
-    currency: currency,
-    hasAutoTrain: (document.getElementById('buy-auto-train-button').style.display === 'none')
+    currency: currency
   };
   localStorage.setItem('gameData', JSON.stringify(gameData));
 }
@@ -113,11 +98,20 @@ function loadGame() {
     currency = gameData.currency;
     document.getElementById('currency').textContent = currency;
     updateAllSkills();
+  } else {
+    generateRandomSkillNames(); // Generate random skill names if no saved data exists
+  }
+}
 
-    if (gameData.hasAutoTrain) {
-      document.getElementById('buy-auto-train-button').style.display = 'none';
-      autoTrainInterval = setInterval(autoTrainSkills, 3000);
-    }
+// Generate random skill names
+function generateRandomSkillNames() {
+  for (var i = 0; i < 15; i++) {
+    var randomIndex = Math.floor(Math.random() * skillNameOptions.length);
+    skills.push({
+      name: skillNameOptions[randomIndex],
+      level: 0,
+      exp: 0
+    });
   }
 }
 
@@ -130,7 +124,6 @@ function updateAllSkills() {
 
 // Initialize the game
 function initGame() {
-  initSkills();
   loadGame(); // Load the game data
   setInterval(updateAllSkills, 1000); // Update skills every second
 }
