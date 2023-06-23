@@ -38,14 +38,14 @@ function initSkills() {
 function trainSkill(skillIndex) {
   var skill = skills[skillIndex - 1];
   skill.exp += 10;
-  
+
   if (skill.exp >= 100) {
     skill.exp -= 100;
     skill.level++;
     currency += 10; // Earn 10 coins for leveling up a skill
     document.getElementById('currency').textContent = currency;
   }
-  
+
   updateSkill(skillIndex);
 }
 
@@ -55,7 +55,7 @@ function updateSkill(skillIndex) {
   var skillNameElement = document.getElementById('skill' + skillIndex + '-name');
   var skillLevelElement = document.getElementById('skill' + skillIndex + '-level');
   var skillExpElement = document.getElementById('skill' + skillIndex + '-exp');
-  
+
   skillNameElement.textContent = skill.name;
   skillLevelElement.textContent = skill.level;
   skillExpElement.textContent = skill.exp;
@@ -78,35 +78,30 @@ function buyAutoTrain() {
   }
 }
 
-// Save game data to localStorage
+// Save game progress
 function saveGame() {
-  var gameData = {
+  var savedData = {
     skills: skills,
     currency: currency
   };
-  localStorage.setItem('gameData', JSON.stringify(gameData));
-  console.log('Game saved!');
+
+  localStorage.setItem('skillQuestSave', JSON.stringify(savedData));
+  console.log('Game progress saved.');
 }
 
-// Load game data from localStorage
+// Load game progress
 function loadGame() {
-  var savedData = localStorage.getItem('gameData');
-  if (savedData) {
-    var gameData = JSON.parse(savedData);
-    skills = gameData.skills;
-    currency = gameData.currency;
-    updateAllSkills();
-    document.getElementById('currency').textContent = currency;
-    console.log('Game loaded!');
-  } else {
-    console.log('No saved game data found!');
-  }
-}
+  var savedData = localStorage.getItem('skillQuestSave');
 
-// Update all skill data on the page
-function updateAllSkills() {
-  for (var i = 1; i <= skills.length; i++) {
-    updateSkill(i);
+  if (savedData) {
+    savedData = JSON.parse(savedData);
+    skills = savedData.skills;
+    currency = savedData.currency;
+    document.getElementById('currency').textContent = currency;
+    updateAllSkills();
+    console.log('Game progress loaded.');
+  } else {
+    console.log('No saved data found.');
   }
 }
 
@@ -115,6 +110,9 @@ function initGame() {
   initSkills();
   updateAllSkills();
   setInterval(updateAllSkills, 1000); // Update skills every second
+
+  document.getElementById('save-button').addEventListener('click', saveGame);
+  document.getElementById('load-button').addEventListener('click', loadGame);
 }
 
 // Start the game when the page loads
