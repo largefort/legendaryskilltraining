@@ -11,7 +11,7 @@
       <h2 id="skill1-name">Skill 1</h2>
       <p>Level: <span id="skill1-level">0</span></p>
       <p>Experience: <span id="skill1-exp">0</span></p>
-      <button onclick="trainSkill(1)">Train</button>
+      <button onmousedown="startTraining(1)" onmouseup="stopTraining()" ontouchstart="startTraining(1)" ontouchend="stopTraining()">Train</button>
     </div>
     <!-- Repeat the above skill div for other skills -->
   </div>
@@ -19,11 +19,14 @@
     <h2>Currency: <span id="currency">0</span> Coins</h2>
     <button onclick="buyAutoTrain()">Buy Auto-Train (100 Coins)</button>
   </div>
+  <div id="version-container">
+    <p>Version: <span id="version">1.0</span></p>
+    <p id="autosave-text">Autosaving...</p>
+  </div>
+  <div id="copyright">
+    <p>&copy; 2023 Jafet Egill. All rights reserved.</p>
+  </div>
   
   <script src="script.js"></script>
 </body>
-  <footer>
-  <p>&copy; 2023 Jafet Egill. All rights reserved. | Version 1.0</p>
-</footer>
-
 </html>
