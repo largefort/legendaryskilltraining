@@ -6,21 +6,18 @@
 </head>
 <body>
   <h1>Legendary Skill Quest</h1>
-  
-  <div id="currency-container">
-    <span>Currency: </span>
-    <span id="currency">0</span>
-  </div>
-  
   <div id="skills-container">
-    <h2>Skills</h2>
-    <ul id="skills-list">
-      <!-- Skills will be dynamically added here -->
-    </ul>
+    <div class="skill">
+      <h2 id="skill1-name">Skill 1</h2>
+      <p>Level: <span id="skill1-level">0</span></p>
+      <p>Experience: <span id="skill1-exp">0</span></p>
+      <button onclick="trainSkill(1)">Train</button>
+    </div>
+    <!-- Repeat the above skill div for other skills -->
   </div>
-  
-  <div id="controls-container">
-    <button id="buy-auto-train-button" onclick="buyAutoTrain()">Buy Auto-Train (100 coins)</button>
+  <div id="currency-container">
+    <h2>Currency: <span id="currency">0</span> Coins</h2>
+    <button onclick="buyAutoTrain()">Buy Auto-Train (100 Coins)</button>
   </div>
   
   <script src="script.js"></script>
