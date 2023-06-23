@@ -1,4 +1,4 @@
-    // Random skill names
+// Random skill names
 var skillNames = [
   "Shadow Strike",
   "Dragon Fury",
@@ -23,9 +23,6 @@ var skills = [];
 // Currency
 var currency = 0;
 
-// Version number
-var versionNumber = "1.0";
-
 // Initialize skills
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
@@ -41,14 +38,14 @@ function initSkills() {
 function trainSkill(skillIndex) {
   var skill = skills[skillIndex - 1];
   skill.exp += 10;
-
+  
   if (skill.exp >= 100) {
     skill.exp -= 100;
     skill.level++;
     currency += 10; // Earn 10 coins for leveling up a skill
     document.getElementById('currency').textContent = currency;
   }
-
+  
   updateSkill(skillIndex);
 }
 
@@ -58,7 +55,7 @@ function updateSkill(skillIndex) {
   var skillNameElement = document.getElementById('skill' + skillIndex + '-name');
   var skillLevelElement = document.getElementById('skill' + skillIndex + '-level');
   var skillExpElement = document.getElementById('skill' + skillIndex + '-exp');
-
+  
   skillNameElement.textContent = skill.name;
   skillLevelElement.textContent = skill.level;
   skillExpElement.textContent = skill.exp;
@@ -81,54 +78,42 @@ function buyAutoTrain() {
   }
 }
 
-// Export save data as JSON
-function exportSave() {
+// Autosave
+function autoSave() {
   var saveData = {
     skills: skills,
-    currency: currency,
-    versionNumber: versionNumber
+    currency: currency
   };
-
-  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(saveData));
-  var downloadAnchor = document.createElement('a');
-  downloadAnchor.setAttribute('href', dataStr);
-  downloadAnchor.setAttribute('download', 'savedata.json');
-  downloadAnchor.click();
+  localStorage.setItem('skillQuestSave', JSON.stringify(saveData));
 }
 
-// Import save data from JSON
-function importSave(event) {
-  var file = event.target.files[0];
-  var reader = new FileReader();
-
-  reader.onload = function (e) {
-    var saveData = JSON.parse(e.target.result);
+// Load saved data
+function loadSaveData() {
+  var savedData = localStorage.getItem('skillQuestSave');
+  if (savedData) {
+    var saveData = JSON.parse(savedData);
     skills = saveData.skills;
     currency = saveData.currency;
-    versionNumber = saveData.versionNumber;
-
-    updateAllSkills();
     document.getElementById('currency').textContent = currency;
-  };
+    updateAllSkills();
+  }
+}
 
-  reader.readAsText(file);
+// Update all skills
+function updateAllSkills() {
+  for (var i = 1; i <= skills.length; i++) {
+    updateSkill(i);
+  }
 }
 
 // Initialize the game
 function initGame() {
   initSkills();
+  loadSaveData();
   updateAllSkills();
+  setInterval(autoSave, 5000); // Autosave every 5 seconds
   setInterval(updateAllSkills, 1000); // Update skills every second
-
-  // Sync version number
-  document.getElementById('version-number').textContent = versionNumber;
 }
 
 // Start the game when the page loads
 window.onload = initGame;
-
-// Event listener for export button
-document.getElementById('export-button').addEventListener('click', exportSave);
-
-// Event listener for import input
-document.getElementById('import-input').addEventListener('change', importSave);
