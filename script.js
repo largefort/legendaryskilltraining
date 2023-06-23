@@ -23,9 +23,6 @@ var skills = [];
 // Currency
 var currency = 0;
 
-// Hold button interval ID
-var holdButtonInterval;
-
 // Autosave interval ID
 var autosaveInterval;
 
@@ -68,19 +65,6 @@ function updateSkill(skillIndex) {
   skillNameElement.textContent = skill.name;
   skillLevelElement.textContent = skill.level;
   skillExpElement.textContent = skill.exp;
-}
-
-// Hold button for automatic training
-function holdButton(skillIndex) {
-  trainSkill(skillIndex);
-  holdButtonInterval = setInterval(function() {
-    trainSkill(skillIndex);
-  }, 500);
-}
-
-// Release button to stop automatic training
-function releaseButton() {
-  clearInterval(holdButtonInterval);
 }
 
 // Autosave function
@@ -128,8 +112,7 @@ window.onload = initGame;
 // Copyright notice
 console.log("© 2023 Jafet Egill. All rights reserved.");
 
-// Stop autosave and release button on page unload
+// Stop autosave on page unload
 window.onbeforeunload = function() {
   clearInterval(autosaveInterval);
-  releaseButton();
 };
