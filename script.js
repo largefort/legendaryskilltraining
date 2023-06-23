@@ -23,9 +23,6 @@ var skills = [];
 // Currency
 var currency = 0;
 
-// Training interval ID
-var trainingInterval;
-
 // Initialize skills
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
@@ -64,21 +61,25 @@ function updateSkill(skillIndex) {
   skillExpElement.textContent = skill.exp;
 }
 
-// Buy auto-train
+// Buy auto-train feature
 function buyAutoTrain() {
   if (currency >= 100) {
     currency -= 100;
     document.getElementById('currency').textContent = currency;
     enableAutoTrain();
+    alert('Auto-Train feature purchased successfully!');
   } else {
-    alert("Insufficient coins to buy auto-train!");
+    alert('Not enough coins to purchase Auto-Train feature!');
   }
 }
+
+// Auto-train variables
+var trainingInterval;
 
 // Enable auto-train
 function enableAutoTrain() {
   trainingInterval = setInterval(function() {
-    trainSkill(1); // Train only the first skill for demonstration purposes
+    trainSkill(1); // Train the first skill automatically for demonstration purposes
   }, 100);
 }
 
@@ -87,7 +88,7 @@ function disableAutoTrain() {
   clearInterval(trainingInterval);
 }
 
-// Save the game data to local storage
+// Save the game data
 function saveGame() {
   var saveData = {
     skills: skills,
@@ -98,7 +99,7 @@ function saveGame() {
   alert('Game saved successfully!');
 }
 
-// Load the game data from local storage
+// Load the game data
 function loadGame() {
   var savedData = localStorage.getItem('skillQuestSaveData');
 
@@ -128,5 +129,27 @@ function initGame() {
   document.getElementById('currency').textContent = currency;
 }
 
+// Enter the game
+function enterGame() {
+  document.getElementById('changelog-container').style.display = 'none';
+  document.getElementById('game-container').style.display = 'block';
+  initGame();
+}
+
 // Start the game when the page loads
-window.onload = initGame;
+window.onload = function() {
+  var savedData = localStorage.getItem('skillQuestSaveData');
+
+  if (savedData) {
+    var confirmLoad = confirm('Saved game data found! Do you want to load the saved game?');
+    if (confirmLoad) {
+      loadGame();
+      enterGame();
+    } else {
+      localStorage.removeItem('skillQuestSaveData');
+      enterGame();
+    }
+  } else {
+    enterGame();
+  }
+};
