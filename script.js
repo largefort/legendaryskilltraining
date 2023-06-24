@@ -38,7 +38,7 @@ function trainSkill(skillIndex) {
     skill.exp = 0;
     skill.level++;
     currency += 10;
-    document.getElementById('currency').textContent = currency;
+    document.getElementById('currency').textContent = currency.toExponential(2);
     unlockSkills();
   }
 
@@ -65,7 +65,7 @@ function updateSkill(skillIndex) {
 function buyAutoTrain() {
   if (currency >= 100) {
     currency -= 100;
-    document.getElementById('currency').textContent = currency;
+    document.getElementById('currency').textContent = currency.toExponential(2);
     enableAutoTrain();
     alert('Auto-Train feature purchased successfully!');
   } else {
@@ -104,7 +104,7 @@ function loadGame() {
     skills = saveData.skills;
     currency = saveData.currency;
     updateAllSkills();
-    document.getElementById('currency').textContent = currency;
+    document.getElementById('currency').textContent = currency.toExponential(2);
     unlockSkills();
     alert('Game loaded successfully!');
   } else {
@@ -121,7 +121,7 @@ function updateAllSkills() {
 function initGame() {
   initSkills();
   updateAllSkills();
-  document.getElementById('currency').textContent = currency;
+  document.getElementById('currency').textContent = currency.toExponential(2);
   unlockSkills();
 }
 
@@ -147,4 +147,3 @@ window.onload = function() {
     enterGame();
   }
 };
-
