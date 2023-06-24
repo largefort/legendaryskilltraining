@@ -1,4 +1,3 @@
-// Random skill names
 var skillNames = [
   "Shadow Strike",
   "Dragon Fury",
@@ -17,27 +16,20 @@ var skillNames = [
   "Whirlwind Slash"
 ];
 
-// Skill data
 var skills = [];
-
-// Currency
 var currency = 0;
-
-// Unlocked skills
 var unlockedSkills = [];
 
-// Initialize skills
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
     skills.push({
       name: skillNames[i],
-      level: (i === 0) ? 0 : -1, // Set initial level to 0 for first skill, -1 for others
+      level: (i === 0) ? 0 : -1,
       exp: 0
     });
   }
 }
 
-// Train a skill
 function trainSkill(skillIndex) {
   var skill = skills[skillIndex - 1];
   skill.exp += 10;
@@ -45,15 +37,14 @@ function trainSkill(skillIndex) {
   if (skill.exp >= 100) {
     skill.exp = 0;
     skill.level++;
-    currency += 10; // Earn 10 coins for leveling up a skill
+    currency += 10;
     document.getElementById('currency').textContent = currency;
-    unlockSkills(); // Check if new skills can be unlocked
+    unlockSkills();
   }
 
   updateSkill(skillIndex);
 }
 
-// Unlock new skills
 function unlockSkills() {
   for (var i = 1; i < skillNames.length; i++) {
     if (skills[0].level >= 100) {
@@ -62,17 +53,15 @@ function unlockSkills() {
   }
 }
 
-// Update skill data on the page
 function updateSkill(skillIndex) {
   var skill = skills[skillIndex - 1];
   var skillLevelElement = document.getElementById('skill' + skillIndex + '-level');
   var skillExpElement = document.getElementById('skill' + skillIndex + '-exp');
 
-  skillLevelElement.textContent = skill.level;
+  skillLevelElement.textContent = skill.level === 0 ? "N/A" : skill.level;
   skillExpElement.textContent = skill.exp;
 }
 
-// Buy auto-train feature
 function buyAutoTrain() {
   if (currency >= 100) {
     currency -= 100;
@@ -84,23 +73,19 @@ function buyAutoTrain() {
   }
 }
 
-// Auto-train variables
 var trainingInterval;
 
-// Enable auto-train
 function enableAutoTrain() {
   trainingInterval = setInterval(function() {
-    trainSkill(1); // Train the first skill automatically for demonstration purpose
-      trainSkill(2); // Train the second skill automatically for demonstration purposes
+    trainSkill(1);
+    trainSkill(2);
   }, 100);
 }
 
-// Disable auto-train
 function disableAutoTrain() {
   clearInterval(trainingInterval);
 }
 
-// Save the game data
 function saveGame() {
   var saveData = {
     skills: skills,
@@ -111,7 +96,6 @@ function saveGame() {
   alert('Game saved successfully!');
 }
 
-// Load the game data
 function loadGame() {
   var savedData = localStorage.getItem('skillQuestSaveData');
 
@@ -121,36 +105,32 @@ function loadGame() {
     currency = saveData.currency;
     updateAllSkills();
     document.getElementById('currency').textContent = currency;
-    unlockSkills(); // Check if new skills can be unlocked
+    unlockSkills();
     alert('Game loaded successfully!');
   } else {
     alert('No saved game data found!');
   }
 }
 
-// Update all skills on the page
 function updateAllSkills() {
   for (var i = 1; i <= skills.length; i++) {
     updateSkill(i);
   }
 }
 
-// Initialize the game
 function initGame() {
   initSkills();
   updateAllSkills();
   document.getElementById('currency').textContent = currency;
-  unlockSkills(); // Check if new skills can be unlocked
+  unlockSkills();
 }
 
-// Enter the game
 function enterGame() {
   document.getElementById('changelog-container').style.display = 'none';
   document.getElementById('game-container').style.display = 'block';
   initGame();
 }
 
-// Start the game when the page loads
 window.onload = function() {
   var savedData = localStorage.getItem('skillQuestSaveData');
 
@@ -167,3 +147,4 @@ window.onload = function() {
     enterGame();
   }
 };
+
