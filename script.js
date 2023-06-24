@@ -67,11 +67,9 @@ function trainSkill(skillIndex) {
 // Update skill data on the page
 function updateSkill(skillIndex) {
   var skill = skills[skillIndex - 1];
-  var skillNameElement = document.getElementById('skill' + skillIndex + '-name');
   var skillLevelElement = document.getElementById('skill' + skillIndex + '-level');
   var skillExpElement = document.getElementById('skill' + skillIndex + '-exp');
 
-  skillNameElement.textContent = skill.name;
   skillLevelElement.textContent = skill.level;
   skillExpElement.textContent = skill.exp;
 }
