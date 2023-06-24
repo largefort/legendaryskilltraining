@@ -1,14 +1,14 @@
-var skillNames = ["Shadow Strike", "Dragon Fury", "Storm Bolt", "Arcane Surge", "Venomous Bite", "Holy Smite", "Inferno Blaze", "Frost Nova", "Earthquake", "Divine Shield", "Thunderstorm", "Rapid Shot", "Crippling Blow", "Soul Drain", "Whirlwind Slash"];
-var skills = [], currency = 0, unlockedSkills = [];
+let skillNames = ["Shadow Strike", "Dragon Fury", "Storm Bolt", "Arcane Surge", "Venomous Bite", "Holy Smite", "Inferno Blaze", "Frost Nova", "Earthquake", "Divine Shield", "Thunderstorm", "Rapid Shot", "Crippling Blow", "Soul Drain", "Whirlwind Slash"];
+let skills = [], currency = 0, unlockedSkills = [];
 
-function initSkills() {
-  for (var i = 0; i < skillNames.length; i++) {
+const initSkills = () => {
+  for (let i = 0; i < skillNames.length; i++) {
     skills.push({ name: skillNames[i], level: (i === 0) ? 0 : -1, exp: 0 });
   }
 }
 
-function trainSkill(skillIndex) {
-  var skill = skills[skillIndex - 1];
+const trainSkill = (skillIndex) => {
+  let skill = skills[skillIndex - 1];
   skill.exp += 10;
 
   if (skill.exp >= 100) {
@@ -22,24 +22,24 @@ function trainSkill(skillIndex) {
   updateSkill(skillIndex);
 }
 
-function unlockSkills() {
-  for (var i = 1; i < skillNames.length; i++) {
+const unlockSkills = () => {
+  for (let i = 1; i < skillNames.length; i++) {
     if (skills[0].level >= 100) {
       unlockedSkills.push(i + 1);
     }
   }
 }
 
-function updateSkill(skillIndex) {
-  var skill = skills[skillIndex - 1];
-  var skillLevelElement = document.getElementById('skill' + skillIndex + '-level');
-  var skillExpElement = document.getElementById('skill' + skillIndex + '-exp');
+const updateSkill = (skillIndex) => {
+  let skill = skills[skillIndex - 1];
+  let skillLevelElement = document.getElementById('skill' + skillIndex + '-level');
+  let skillExpElement = document.getElementById('skill' + skillIndex + '-exp');
 
   skillLevelElement.textContent = skill.level === 0 ? "N/A" : skill.level;
   skillExpElement.textContent = skill.exp;
 }
 
-function buyAutoTrain() {
+const buyAutoTrain = () => {
   if (currency >= 100) {
     currency -= 100;
     document.getElementById('currency').textContent = currency;
@@ -50,31 +50,31 @@ function buyAutoTrain() {
   }
 }
 
-var trainingInterval;
+let trainingInterval;
 
-function enableAutoTrain() {
-  trainingInterval = setInterval(function() {
+const enableAutoTrain = () => {
+  trainingInterval = setInterval(() => {
     trainSkill(1);
     trainSkill(2);
   }, 100);
 }
 
-function disableAutoTrain() {
+const disableAutoTrain = () => {
   clearInterval(trainingInterval);
 }
 
-function saveGame() {
-  var saveData = { skills: skills, currency: currency };
+const saveGame = () => {
+  let saveData = { skills: skills, currency: currency };
 
   localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
   alert('Game saved successfully!');
 }
 
-function loadGame() {
-  var savedData = localStorage.getItem('skillQuestSaveData');
+const loadGame = () => {
+  let savedData = localStorage.getItem('skillQuestSaveData');
 
   if (savedData) {
-    var saveData = JSON.parse(savedData);
+    let saveData = JSON.parse(savedData);
     skills = saveData.skills;
     currency = saveData.currency;
     updateAllSkills();
@@ -86,30 +86,30 @@ function loadGame() {
   }
 }
 
-function updateAllSkills() {
-  for (var i = 1; i <= skills.length; i++) {
+const updateAllSkills = () => {
+  for (let i = 1; i <= skills.length; i++) {
     updateSkill(i);
   }
 }
 
-function initGame() {
+const initGame = () => {
   initSkills();
   updateAllSkills();
   document.getElementById('currency').textContent = currency;
   unlockSkills();
 }
 
-function enterGame() {
+const enterGame = () => {
   document.getElementById('changelog-container').style.display = 'none';
   document.getElementById('game-container').style.display = 'block';
   initGame();
 }
 
-window.onload = function() {
-  var savedData = localStorage.getItem('skillQuestSaveData');
+window.onload = () => {
+  let savedData = localStorage.getItem('skillQuestSaveData');
 
   if (savedData) {
-    var confirmLoad = confirm('Saved game data found! Do you want to load the saved game?');
+    let confirmLoad = confirm('Saved game data found! Do you want to load the saved game?');
     if (confirmLoad) {
       loadGame();
       enterGame();
@@ -121,4 +121,3 @@ window.onload = function() {
     enterGame();
   }
 };
-
