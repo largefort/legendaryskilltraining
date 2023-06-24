@@ -147,3 +147,12 @@ window.onload = function() {
     enterGame();
   }
 };
+  element.textContent = currentValue.toLocaleString('en-US', { notation: "compact" });
+
+    if (currentTime < endTime) {
+
+      requestAnimationFrame(update);
+
+    }
+
+  }
