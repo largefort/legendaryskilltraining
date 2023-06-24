@@ -60,7 +60,7 @@ function updateSkill(skillIndex) {
 
   skillLevelElement.textContent = skill.level === 0 ? "N/A" : skill.level.toLocaleString('en-US');
   skillExpElement.textContent = skill.exp.toLocaleString('en-US');
-}
+    element.textContent = currentValue.toLocaleString('en-US', { notation: "compact" });}
 
 function buyAutoTrain() {
   if (currency >= 100) {
@@ -147,12 +147,3 @@ window.onload = function() {
     enterGame();
   }
 };
-  element.textContent = currentValue.toLocaleString('en-US', { notation: "compact" });
-
-    if (currentTime < endTime) {
-
-      requestAnimationFrame(update);
-
-    }
-
-  }
