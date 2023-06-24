@@ -23,12 +23,15 @@ var skills = [];
 // Currency
 var currency = 0;
 
+// Unlocked skills
+var unlockedSkills = [];
+
 // Initialize skills
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
     skills.push({
       name: skillNames[i],
-      level: 0,
+      level: (i === 0) ? 0 : -1, // Set initial level to 0 for first skill, -1 for others
       exp: 0
     });
   }
@@ -44,9 +47,19 @@ function trainSkill(skillIndex) {
     skill.level++;
     currency += 10; // Earn 10 coins for leveling up a skill
     document.getElementById('currency').textContent = currency;
+    unlockSkills(); // Check if new skills can be unlocked
   }
 
   updateSkill(skillIndex);
+}
+
+// Unlock new skills
+function unlockSkills() {
+  for (var i = 1; i < skillNames.length; i++) {
+    if (skills[0].level >= 100) {
+      unlockedSkills.push(i + 1);
+    }
+  }
 }
 
 // Update skill data on the page
@@ -107,6 +120,7 @@ function loadGame() {
     currency = saveData.currency;
     updateAllSkills();
     document.getElementById('currency').textContent = currency;
+    unlockSkills(); // Check if new skills can be unlocked
     alert('Game loaded successfully!');
   } else {
     alert('No saved game data found!');
@@ -125,6 +139,7 @@ function initGame() {
   initSkills();
   updateAllSkills();
   document.getElementById('currency').textContent = currency;
+  unlockSkills(); // Check if new skills can be unlocked
 }
 
 // Enter the game
