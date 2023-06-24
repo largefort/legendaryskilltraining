@@ -38,7 +38,7 @@ function trainSkill(skillIndex) {
     skill.exp = 0;
     skill.level++;
     currency += 10;
-    document.getElementById('currency').textContent = currency.toLocaleString('en-US');
+    document.getElementById('currency').textContent = currency.toLocaleString('en-US'); { notation: "compact
     unlockSkills();
   }
 
@@ -60,12 +60,10 @@ function updateSkill(skillIndex) {
 
   skillLevelElement.textContent = skill.level === 0 ? "N/A" : skill.level.toLocaleString('en-US');
   skillExpElement.textContent = skill.exp.toLocaleString('en-US');
-    element.textContent = currentValue.toLocaleString('en-US', { notation: "compact" });}
-
 function buyAutoTrain() {
   if (currency >= 100) {
     currency -= 100;
-    document.getElementById('currency').textContent = currency.toLocaleString('en-US');
+    document.getElementById('currency').textContent = currency.toLocaleString('en-US'); { notation: "compact
     enableAutoTrain();
     alert('Auto-Train feature purchased successfully!');
   } else {
@@ -104,7 +102,7 @@ function loadGame() {
     skills = saveData.skills;
     currency = saveData.currency;
     updateAllSkills();
-    document.getElementById('currency').textContent = currency.toLocaleString('en-US');
+    document.getElementById('currency').textContent = currency.toLocaleString('en-US'); { notation: "compact
     unlockSkills();
     alert('Game loaded successfully!');
   } else {
@@ -121,7 +119,7 @@ function updateAllSkills() {
 function initGame() {
   initSkills();
   updateAllSkills();
-  document.getElementById('currency').textContent = currency.toLocaleString('en-US');
+  document.getElementById('currency').textContent = currency.toLocaleString('en-US'); { notation: "compact
   unlockSkills();
 }
 
