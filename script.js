@@ -90,9 +90,17 @@ var trainingInterval;
 // Enable auto-train
 function enableAutoTrain() {
   trainingInterval = setInterval(function() {
-    trainSkill(1); // Train the first skill automatically for demonstration purposes
+    trainSkillsAutomatically(); // Train all skills automatically
   }, 100);
 }
+
+// Train all skills automatically
+function trainSkillsAutomatically() {
+  for (var i = 0; i < skills.length; i++) {
+    trainSkill(i + 1);
+  }
+}
+
 
 // Disable auto-train
 function disableAutoTrain() {
