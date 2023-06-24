@@ -1,32 +1,9 @@
-var skillNames = [
-  "Shadow Strike",
-  "Dragon Fury",
-  "Storm Bolt",
-  "Arcane Surge",
-  "Venomous Bite",
-  "Holy Smite",
-  "Inferno Blaze",
-  "Frost Nova",
-  "Earthquake",
-  "Divine Shield",
-  "Thunderstorm",
-  "Rapid Shot",
-  "Crippling Blow",
-  "Soul Drain",
-  "Whirlwind Slash"
-];
-
-var skills = [];
-var currency = 0;
-var unlockedSkills = [];
+var skillNames = ["Shadow Strike", "Dragon Fury", "Storm Bolt", "Arcane Surge", "Venomous Bite", "Holy Smite", "Inferno Blaze", "Frost Nova", "Earthquake", "Divine Shield", "Thunderstorm", "Rapid Shot", "Crippling Blow", "Soul Drain", "Whirlwind Slash"];
+var skills = [], currency = 0, unlockedSkills = [];
 
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
-    skills.push({
-      name: skillNames[i],
-      level: (i === 0) ? 0 : -1,
-      exp: 0
-    });
+    skills.push({ name: skillNames[i], level: (i === 0) ? 0 : -1, exp: 0 });
   }
 }
 
@@ -87,10 +64,7 @@ function disableAutoTrain() {
 }
 
 function saveGame() {
-  var saveData = {
-    skills: skills,
-    currency: currency
-  };
+  var saveData = { skills: skills, currency: currency };
 
   localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
   alert('Game saved successfully!');
