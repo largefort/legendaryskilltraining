@@ -52,12 +52,19 @@ function trainSkill(skillIndex) {
   skill.exp += 10;
 
   if (skill.exp >= 100) {
-    skill.exp -= 100;
+    skill.exp = 0;
     skill.level++;
     currency += 10; // Earn 10 coins for leveling up a skill
     document.getElementById('currency').textContent = currency;
-    updateSkill(skillIndex);
   }
+
+  updateSkill(skillIndex);
+
+  if (skills[0].level >= 100) {
+    unlockSkills();
+  }
+}
+
 
   if (skills[0].level >= 100) {
     unlockSkills();
