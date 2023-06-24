@@ -20,6 +20,9 @@ var skillNames = [
 // Skill data
 var skills = [];
 
+// Unlocked skills
+var unlockedSkills = [];
+
 // Currency
 var currency = 0;
 
@@ -34,6 +37,15 @@ function initSkills() {
   }
 }
 
+// Unlock new skills
+function unlockSkills() {
+  for (var i = 1; i < skills.length; i++) {
+    if (skills[0].level >= 100) {
+      unlockedSkills.push(i);
+    }
+  }
+}
+
 // Train a skill
 function trainSkill(skillIndex) {
   var skill = skills[skillIndex - 1];
@@ -44,9 +56,12 @@ function trainSkill(skillIndex) {
     skill.level++;
     currency += 10; // Earn 10 coins for leveling up a skill
     document.getElementById('currency').textContent = currency;
+    updateSkill(skillIndex);
   }
 
-  updateSkill(skillIndex);
+  if (skills[0].level >= 100) {
+    unlockSkills();
+  }
 }
 
 // Update skill data on the page
@@ -59,6 +74,13 @@ function updateSkill(skillIndex) {
   skillNameElement.textContent = skill.name;
   skillLevelElement.textContent = skill.level;
   skillExpElement.textContent = skill.exp;
+}
+
+// Update all skills on the page
+function updateAllSkills() {
+  for (var i = 1; i <= skills.length; i++) {
+    updateSkill(i);
+  }
 }
 
 // Buy auto-train feature
@@ -112,13 +134,6 @@ function loadGame() {
     alert('Game loaded successfully!');
   } else {
     alert('No saved game data found!');
-  }
-}
-
-// Update all skills on the page
-function updateAllSkills() {
-  for (var i = 1; i <= skills.length; i++) {
-    updateSkill(i);
   }
 }
 
