@@ -21,6 +21,37 @@
     h1 {
       animation: rainbow 3s linear infinite;
     }
+
+    #changelog-container,
+    #game-container {
+      padding: 20px;
+    }
+
+    .skill {
+      margin-bottom: 20px;
+      padding: 15px;
+    }
+
+    .skill h2 {
+      font-size: 24px;
+    }
+
+    .skill p {
+      margin-bottom: 5px;
+    }
+
+    #currency-container {
+      margin-top: 20px;
+    }
+
+    #currency-container p,
+    #currency-container button {
+      font-size: 16px;
+    }
+
+    #save-load-container button {
+      margin-top: 10px;
+    }
   </style>
 </head>
 
@@ -46,14 +77,14 @@
       <p>Exp: <span id="skill1-exp">0</span></p>
       <button onclick="trainSkill(1)">Train</button>
     </div>
-    
- <div class="skill">
-      <h2 id="skill1-name">earth bender</h2>
+
+    <div class="skill">
+      <h2 id="skill2-name">Earth Bender</h2>
       <p>Level: <span id="skill2-level">0</span></p>
       <p>Exp: <span id="skill2-exp">0</span></p>
       <button onclick="trainSkill(2)">Train</button>
     </div>
-    
+
     <!-- Add more skill divs here for additional skills -->
 
     <div id="currency-container">
