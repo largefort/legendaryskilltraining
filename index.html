@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="is">
 
 <head>
   <meta charset="UTF-8">
@@ -63,12 +63,6 @@
     #save-load-container {
       margin-top: 20px;
     }
-
-    /* Apply rainbow animation to the custom cursor */
-    body {
-      cursor: url(cursor.cur), auto;
-      animation: rainbow 3s linear infinite;
-    }
   </style>
 </head>
 
@@ -85,7 +79,7 @@
     <button id="play-game-btn" onclick="enterGame()">Play Game</button>
   </div>
 
-  <div id="game-container">
+  <div id="game-container" style="display: none;">
     <h1>Skill Quest</h1>
 
     <div class="skill">
