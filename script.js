@@ -20,8 +20,6 @@ var skills = [];
 var currency = 0;
 var unlockedSkills = [];
 
-var graphicsLevel = 'medium'; // Default graphics level
-
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
     skills.push({
@@ -40,7 +38,7 @@ function trainSkill(skillIndex) {
     skill.exp = 0;
     skill.level++;
     currency += 10;
-    document.getElementById('currency').textContent = currency.toExponential(2);
+    document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
     unlockSkills();
   }
 
@@ -67,7 +65,7 @@ function updateSkill(skillIndex) {
 function buyAutoTrain() {
   if (currency >= 100) {
     currency -= 100;
-    document.getElementById('currency').textContent = currency.toExponential(2);
+    document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
     enableAutoTrain();
     alert('Auto-Train feature purchased successfully!');
   } else {
@@ -91,8 +89,7 @@ function disableAutoTrain() {
 function saveGame() {
   var saveData = {
     skills: skills,
-    currency: currency,
-    graphicsLevel: graphicsLevel // Include graphics level in save data
+    currency: currency
   };
 
   localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
@@ -106,11 +103,9 @@ function loadGame() {
     var saveData = JSON.parse(savedData);
     skills = saveData.skills;
     currency = saveData.currency;
-    graphicsLevel = saveData.graphicsLevel; // Update graphics level from saved data
     updateAllSkills();
-    document.getElementById('currency').textContent = currency.toExponential(2);
+    document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
     unlockSkills();
-    updateGraphics(); // Update graphics based on loaded graphics level
     alert('Game loaded successfully!');
   } else {
     alert('No saved game data found!');
@@ -126,26 +121,14 @@ function updateAllSkills() {
 function initGame() {
   initSkills();
   updateAllSkills();
-  document.getElementById('currency').textContent = currency.toExponential(2);
+  document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
   unlockSkills();
-  updateGraphics(); // Update graphics based on initial graphics level
 }
 
 function enterGame() {
   document.getElementById('changelog-container').style.display = 'none';
   document.getElementById('game-container').style.display = 'block';
   initGame();
-}
-
-function setGraphics(level) {
-  graphicsLevel = level;
-  updateGraphics();
-}
-
-function updateGraphics() {
-  // Update graphics based on graphics level
-  var gameContainer = document.getElementById('game-container');
-  gameContainer.className = 'graphics-' + graphicsLevel;
 }
 
 window.onload = function() {
