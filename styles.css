@@ -5,6 +5,12 @@ body {
   text-align: center;
   padding: 20px;
   margin: 0;
+  cursor: url(cursor.cur), auto;
+}
+
+@keyframes rainbow {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
 }
 
 h1 {
@@ -66,25 +72,7 @@ button:hover {
   background-color: #4d3cc9;
 }
 
-.coins-effect {
-  position: relative;
-  display: inline-block;
-}
-
-.coins-effect::before {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: -5px;
-  width: 20px;
-  height: 20px;
-  background-image: url('coin.png'); /* Replace 'coin.png' with the actual image path */
-  background-size: cover;
-  animation: coins-effect 1s linear infinite;
-}
-
-@keyframes coins-effect {
-  0% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(-10px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+/* Apply rainbow animation to the custom cursor */
+body {
+  animation: rainbow 3s linear infinite;
 }
