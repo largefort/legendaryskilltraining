@@ -63,6 +63,17 @@
     #save-load-container {
       margin-top: 20px;
     }
+    
+    /* Graphics Settings */
+    
+    #graphics-container {
+      margin-top: 30px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 
@@ -101,6 +112,22 @@
     <div id="currency-container">
       <p>Coins: <span id="currency">0</span></p>
       <button onclick="buyAutoTrain()">Buy Auto-Train</button>
+    </div>
+
+    <div id="graphics-container">
+      <h2>Graphics Settings</h2>
+      <label>
+        <input type="checkbox" id="graphics-high" onchange="setGraphics('high')">
+        High
+      </label>
+      <label>
+        <input type="checkbox" id="graphics-medium" onchange="setGraphics('medium')">
+        Medium
+      </label>
+      <label>
+        <input type="checkbox" id="graphics-low" onchange="setGraphics('low')">
+        Low
+      </label>
     </div>
 
     <div id="save-load-container">
