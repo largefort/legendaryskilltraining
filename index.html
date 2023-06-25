@@ -64,27 +64,10 @@
       margin-top: 20px;
     }
 
-    .coins-effect {
-      position: relative;
-      display: inline-block;
-    }
-
-    .coins-effect::before {
-      content: '';
-      position: absolute;
-      top: -10px;
-      left: -5px;
-      width: 20px;
-      height: 20px;
-      background-image: url('coin.png'); /* Replace 'coin.png' with the actual image path */
-      background-size: cover;
-      animation: coins-effect 1s linear infinite;
-    }
-
-    @keyframes coins-effect {
-      0% { transform: translateY(0); opacity: 1; }
-      50% { transform: translateY(-10px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
+    /* Apply rainbow animation to the custom cursor */
+    body {
+      cursor: url(cursor.cur), auto;
+      animation: rainbow 3s linear infinite;
     }
   </style>
 </head>
@@ -102,7 +85,7 @@
     <button id="play-game-btn" onclick="enterGame()">Play Game</button>
   </div>
 
-  <div id="game-container" style="display: none;">
+  <div id="game-container">
     <h1>Skill Quest</h1>
 
     <div class="skill">
@@ -121,7 +104,7 @@
 
     <!-- Add more skill divs here for additional skills -->
 
-    <div id="currency-container" class="coins-effect">
+    <div id="currency-container">
       <p>Coins: <span id="currency">0</span></p>
       <button onclick="buyAutoTrain()">Buy Auto-Train</button>
     </div>
