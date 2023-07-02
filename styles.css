@@ -16,7 +16,7 @@ body {
 h1 {
   font-size: 36px;
   margin-top: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
@@ -44,7 +44,7 @@ h1 {
 }
 
 h2 {
-  font-size: 18px;
+  font-size: 12px;
   margin-top: 0;
 }
 
