@@ -79,6 +79,7 @@ function enableAutoTrain() {
   trainingInterval = setInterval(function() {
     trainSkill(1);
     trainSkill(2);
+    trainSkill(3);
   }, 100);
 }
 
