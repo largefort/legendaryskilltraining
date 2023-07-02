@@ -170,21 +170,6 @@
   </div>
 
   <script src="script.js"></script>
-  <script>
-    function updateDateTime() {
-      const dateElement = document.getElementById("date");
-      const timeElement = document.getElementById("time");
-      const now = new Date();
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const dateString = now.toLocaleDateString(undefined, options);
-      const timeString = now.toLocaleTimeString();
-
-      dateElement.textContent = dateString;
-      timeElement.textContent = timeString;
-    }
-
-    setInterval(updateDateTime, 1000); // Update date and time every second
-  </script>
 </body>
 
 </html>
