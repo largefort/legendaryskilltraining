@@ -118,11 +118,19 @@ function updateAllSkills() {
   }
 }
 
+function updateDateTime() {
+  const currentDate = new Date();
+  const formattedDate = currentDate.toLocaleString();
+  const dateTimeElement = document.getElementById('current-date');
+  dateTimeElement.textContent = 'Current Date and Time: ' + formattedDate;
+}
+
 function initGame() {
   initSkills();
   updateAllSkills();
   document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
   unlockSkills();
+  updateDateTime();
 }
 
 function enterGame() {
