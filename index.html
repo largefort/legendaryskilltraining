@@ -63,6 +63,13 @@
     #save-load-container {
       margin-top: 20px;
     }
+
+    /* Responsive CSS */
+    @media only screen and (max-width: 600px) {
+      .skill {
+        width: 90%;
+      }
+    }
   </style>
 </head>
 
@@ -107,22 +114,23 @@
       <button onclick="saveGame()">Save Game</button>
       <button onclick="loadGame()">Load Game</button>
     </div>
-
-    <p id="current-date"></p> <!-- Placeholder for displaying the current date and time -->
   </div>
 
   <script src="script.js"></script>
   <script>
-    // Update the current date and time
     function updateDateTime() {
-      const currentDate = new Date();
-      const formattedDate = currentDate.toLocaleString();
-      const dateTimeElement = document.getElementById('current-date');
-      dateTimeElement.textContent = 'Current Date and Time: ' + formattedDate;
+      const dateElement = document.getElementById("date");
+      const timeElement = document.getElementById("time");
+      const now = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const dateString = now.toLocaleDateString(undefined, options);
+      const timeString = now.toLocaleTimeString();
+
+      dateElement.textContent = dateString;
+      timeElement.textContent = timeString;
     }
 
-    // Call the updateDateTime function every second
-    setInterval(updateDateTime, 1000);
+    setInterval(updateDateTime, 1000); // Update date and time every second
   </script>
 </body>
 
