@@ -80,6 +80,7 @@ function enableAutoTrain() {
     trainSkill(1);
     trainSkill(2);
     trainSkill(3);
+    trainSkill(4);
   }, 100);
 }
 
