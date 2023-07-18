@@ -14,7 +14,7 @@ var skillNames = [
   "Crippling Blow",
   "Soul Drain",
   "Whirlwind Slash"
-   "Fire Weilder"
+  "Fire Weilder"
 ];
 
 var skills = [];
